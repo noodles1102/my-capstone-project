@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wander | Modern Tech Travel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="reading-progress"></div>
+    
+    <header id="main-header" class="dynamic-header">
+        <div class="header-content">
+            <div class="logo">WANDER<span>/TECH</span></div>
+            <nav>
+                <a href="#">Stories</a>
+                <a href="#">Destinations</a>
+                <a href="#">Gear</a>
+                <button id="theme-toggle">Toggle Theme</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="story-container">
+        <article class="long-form">
+            <header class="article-header">
+                <span class="category">Rogaland, Norway &bull; 6 min read</span>
+                <h1 class="main-title">At the Edge of the World: Ascending Preikestolen</h1>
+                <p class="subtitle">Navigating the balance between untouched Norwegian wilderness and the hyper-connected reality of modern adventure.</p>
+            </header>
+
+            <section class="asymmetric-grid">
+                <div class="grid-item img-large">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Panorama_of_Lysefjord.jpg?width=1200" alt="Panorama of Lysefjord with Preikestolen">
+                </div>
+                <div class="grid-item img-tall">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Preikestolen_Lysefjord.jpg?width=800" alt="Preikestolen overlooking Lysefjord in Norway">
+                </div>
+                <div class="grid-item text-block">
+                    <blockquote>"Standing 604 meters above the Lysefjord, the scale of the earth suddenly makes our digital anxieties feel entirely insignificant."</blockquote>
+                </div>
+            </section>
+
+            <div class="article-body">
+                <p class="drop-cap">The trail to Preikestolen begins in the crisp, mist-heavy dawn of Rogaland. While the hike is a historical rite of passage for outdoor enthusiasts, experiencing it in the modern era is a study in quiet contrasts. We found ourselves surrounded by ancient granite, yet guided by GPS waypoints and sophisticated weather algorithms on our smartwatches.</p>
+                <p>The ascent takes roughly two hours. It is a steep, rocky path forged by glacial shifts over millennia, now meticulously maintained by Nepalese Sherpas who have integrated stone steps into the harsh, unforgiving terrain. The physical exertion demands your complete presence, briefly forcing a disconnect from the constant stream of global notifications.</p>
+                
+                <h2>The Fjord and The Void</h2>
+                <p>As you breach the tree line, the Lysefjord reveals itself in dramatic fashion. The sheer drop of the Pulpit Rock—a nearly flat mountain plateau hovering directly over the dark waters below—is a breathtaking geological marvel.</p>
+                
+                <div class="asymmetric-grid grid-secondary">
+                    <div class="grid-item">
+                        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lysefjorden_fjord.jpg?width=800" alt="The steep cliffs of Lysefjord">
+                    </div>
+                    <div class="grid-item">
+                        <p>There are no guardrails here. The Norwegian philosophy of "friluftsliv" (open-air living) dictates a deep respect for nature's raw, unmediated state. It is a stark departure from the heavily curated and safety-railed environments of our urban lives.</p>
+                    </div>
+                </div>
+                
+                <p>Sitting on the edge, legs dangling over a 604-meter abyss, the duality of our existence becomes clear. We carried lightweight drones and high-fidelity sensors to document the journey, yet the most profound takeaway was the absolute silence of the fjord. It is a reminder that true awe cannot be synthesized—only witnessed.</p>
+                <p>As the afternoon sun cast long shadows over the granite, we packed our gear and began the descent. We left the cliff face exactly as we found it: silent, imposing, and completely indifferent to the technology we brought with us.</p>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
+        });
+
+        // Dynamic Header (Hide on scroll down, show on scroll up)
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

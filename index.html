@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Journal | Capstone Directory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="reading-progress"></div>
+    
+    <header id="main-header" class="dynamic-header">
+        <div class="header-content">
+            <div class="logo">TRAVEL<span>JOURNAL</span></div>
+            <nav>
+                <a href="#">About</a>
+                <a href="#">Directory</a>
+                <a href="https://github.com/noodles1102/my-capstone-project" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <button id="theme-toggle">Toggle Theme</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="story-container">
+        <article class="long-form">
+            <header class="article-header">
+                <span class="category">Project Directory &bull; Khoa Le</span>
+                <h1 class="main-title">Capstone Development</h1>
+                <p class="subtitle">A complete chronological archive of my weekly progress, deployments, and modern CSS architecture iterations.</p>
+            </header>
+
+            <section class="directory-grid">
+                <!-- Directory Links using relative paths for deployment -->
+                <a href="week02/" class="directory-card">
+                    <span class="week-number">Week 02</span>
+                    <h2 class="week-title">Archetype Selection & Global Token Blueprint</h2>
+                    <p class="week-desc">Defining foundational design tokens, color spaces, and core typographic scales.</p>
+                </a>
+                
+                <a href="week03/" class="directory-card">
+                    <span class="week-number">Week 03</span>
+                    <h2 class="week-title">Structural Frames & Semantic Navigation</h2>
+                    <p class="week-desc">Building accessible, semantic HTML5 structures and robust navigation.</p>
+                </a>
+
+                <a href="week04/" class="directory-card">
+                    <span class="week-number">Week 04</span>
+                    <h2 class="week-title">The Asymmetric Responsive Grid Hub</h2>
+                    <p class="week-desc">Implementing advanced CSS Grid layouts tailored for modern editorial content.</p>
+                </a>
+
+                <a href="week05/" class="directory-card">
+                    <span class="week-number">Week 05</span>
+                    <h2 class="week-title">Native Nesting & @layer Architecture</h2>
+                    <p class="week-desc">Refactoring CSS using modern native nesting and organizing cascade layers.</p>
+                </a>
+
+                <a href="week06/" class="directory-card">
+                    <span class="week-number">Week 06</span>
+                    <h2 class="week-title">Container Queries & Component-Level Fluidity</h2>
+                    <p class="week-desc">Adapting UI components organically based on their specific container dimensions.</p>
+                </a>
+
+                <a href="week07/" class="directory-card">
+                    <span class="week-number">Week 07</span>
+                    <h2 class="week-title">Micro-Interactions & Scroll-Driven Enhancements</h2>
+                    <p class="week-desc">Adding final polish with modern scroll-driven animations and tactile hover states.</p>
+                </a>
+            </section>
+        </article>
+    </main>
+
+    <script>
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
+        });
+
+        // Dynamic Header (Hide on scroll down, show on scroll up)
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

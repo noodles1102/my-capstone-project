@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Journal | Week 2</title>
+    <title>Travel Journal | Week 3: Semantic Grid</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="app-layout">
     <div class="reading-progress"></div>
     
-    <header id="main-header" class="dynamic-header">
+    <header id="main-header" class="site-header">
         <div class="header-content">
             <div class="logo">TRAVEL<span>JOURNAL</span></div>
-            <nav>
+            <nav class="primary-nav">
                 <a href="#">About</a>
                 <a href="#">Directory</a>
                 <a href="https://github.com/noodles1102/my-capstone-project" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -58,31 +58,45 @@
                 </div>
                 
                 <p>Sitting on the edge, legs dangling over a 604-meter abyss, the duality of our existence becomes clear. We carried lightweight drones and high-fidelity sensors to document the journey, yet the most profound takeaway was the absolute silence of the fjord. It is a reminder that true awe cannot be synthesized—only witnessed.</p>
-                <p>As the afternoon sun cast long shadows over the granite, we packed our gear and began the descent. We left the cliff face exactly as we found it: silent, imposing, and completely indifferent to the technology we brought with us.</p>
             </div>
         </article>
     </main>
 
-    <script>
-        // Reading Progress Bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
-        });
-
-        // Dynamic Header (Hide on scroll down, show on scroll up)
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('main-header');
+    <aside class="related-sidebar">
+        <h3 class="sidebar-title">Explore More</h3>
+        <ul class="sidebar-list">
+            <li><a href="#">The Lofoten Islands: A Digital Nomad's Guide</a></li>
+            <li><a href="#">Tech Gear for Extreme Cold Weather</a></li>
+            <li><a href="#">Sustainable Travel in the Nordics</a></li>
+        </ul>
         
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-            lastScrollY = window.scrollY;
+        <div class="newsletter-card">
+            <h4>Join the Journey</h4>
+            <p>Get weekly updates on our tech and travel dispatches.</p>
+            <input type="email" placeholder="Email address" class="newsletter-input">
+            <button class="newsletter-btn">Subscribe</button>
+        </div>
+    </aside>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Journal Capstone. All rights reserved.</p>
+            <nav class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar (scoped to main scroll area now)
+        const mainElement = document.querySelector('main');
+        mainElement.addEventListener('scroll', () => {
+            const scrollTop = mainElement.scrollTop;
+            const height = mainElement.scrollHeight - mainElement.clientHeight;
+            const scrolled = (scrollTop / height) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
         });
 
         // Theme Toggle

@@ -1,0 +1,259 @@
+/* 
+   OKLCH COLOR VARIABLES
+   ---------------------
+*/
+:root {
+    /* LIGHT MODE */
+    --bg-primary: oklch(0.98 0.01 75);      
+    --bg-secondary: oklch(0.95 0.015 75);   
+    --text-primary: oklch(0.25 0.02 250);   
+    --text-secondary: oklch(0.45 0.02 250); 
+    --accent: oklch(0.60 0.18 20);          
+    --border: oklch(0.85 0.01 250);
+
+    /* TYPOGRAPHY SCALE */
+    --size-base: 1rem;
+    --size-heading-md: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+    --size-heading-lg: clamp(2rem, 1.3rem + 3.5vw, 4rem);
+
+    /* SPACING SYSTEM */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+    
+    --scroll-progress: 0%;
+}
+
+[data-theme="dark"] {
+    /* DARK MODE (Passes WCAG AA 4.5:1 ratio) */
+    --bg-primary: oklch(0.18 0.01 250);     
+    --bg-secondary: oklch(0.22 0.015 250);  
+    --text-primary: oklch(0.92 0.01 75);    
+    --text-secondary: oklch(0.70 0.01 75);  
+    --accent: oklch(0.70 0.16 25);          
+    --border: oklch(0.30 0.01 250);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg-primary: oklch(0.18 0.01 250);
+        --bg-secondary: oklch(0.22 0.015 250);
+        --text-primary: oklch(0.92 0.01 75);
+        --text-secondary: oklch(0.70 0.01 75);
+        --accent: oklch(0.70 0.16 25);
+        --border: oklch(0.30 0.01 250);
+    }
+}
+
+/* RESET & BASE */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* SEMANTIC 100DVH GRID LAYOUT (From Week 3) */
+.app-layout {
+    display: grid;
+    grid-template-columns: 
+        minmax(var(--space-md), 1fr) 
+        minmax(auto, 1000px) /* Expanded slightly to accommodate the 3-column card grid */
+        minmax(250px, 300px) 
+        minmax(var(--space-md), 1fr);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header header"
+        ". main aside ."
+        "footer footer footer footer";
+    height: 100dvh;
+    overflow: hidden;
+    gap: 0 var(--space-md);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: var(--size-base);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.reading-progress { grid-column: 1 / -1; grid-row: 1; position: relative; z-index: 1001; width: var(--scroll-progress); height: 4px; background-color: var(--accent); transition: width 0.1s ease-out; }
+.site-header { grid-area: header; background-color: var(--bg-primary); border-bottom: 1px solid var(--border); padding: var(--space-sm) var(--space-md); z-index: 999; }
+.header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+.logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.05em; }
+.logo span { color: var(--accent); }
+.primary-nav a { color: var(--text-secondary); text-decoration: none; margin-left: var(--space-md); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+.primary-nav a:hover { color: var(--text-primary); }
+#theme-toggle { margin-left: var(--space-md); background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); padding: var(--space-xs) var(--space-sm); border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+#theme-toggle:hover { border-color: var(--accent); }
+.story-container { grid-area: main; overflow-y: auto; padding: var(--space-lg) var(--space-md); scrollbar-width: thin; }
+.related-sidebar { grid-area: aside; overflow-y: auto; padding: var(--space-lg) var(--space-md); border-left: 1px solid var(--border); background-color: var(--bg-secondary); }
+.sidebar-title { font-size: 1.2rem; margin-bottom: var(--space-sm); font-family: "Playfair Display", Georgia, serif; }
+.sidebar-list { list-style: none; margin-bottom: var(--space-lg); }
+.sidebar-list li { margin-bottom: var(--space-xs); }
+.sidebar-list a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; }
+.sidebar-list a:hover { color: var(--accent); }
+.newsletter-card { background-color: var(--bg-primary); padding: var(--space-sm); border: 1px solid var(--border); border-radius: 8px; }
+.newsletter-card h4 { margin-bottom: var(--space-xs); font-size: 1.05rem; }
+.newsletter-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: var(--space-sm); }
+.newsletter-input { width: 100%; padding: var(--space-xs); border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); border-radius: 4px; margin-bottom: var(--space-xs); }
+.newsletter-btn { width: 100%; padding: var(--space-xs); background: var(--text-primary); color: var(--bg-primary); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.site-footer { grid-area: footer; background-color: var(--bg-secondary); border-top: 1px solid var(--border); padding: var(--space-sm) var(--space-md); font-size: 0.85rem; color: var(--text-secondary); }
+.footer-content { display: flex; justify-content: space-between; max-width: 1400px; margin: 0 auto; }
+.footer-links a { color: inherit; text-decoration: none; margin-left: var(--space-sm); }
+.footer-links a:hover { color: var(--accent); }
+
+.article-header { text-align: center; margin-bottom: var(--space-lg); max-width: 800px; margin-inline: auto; }
+.category { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; display: block; margin-bottom: var(--space-sm); }
+.main-title { font-size: var(--size-heading-lg); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; margin-bottom: var(--space-md); font-family: "Playfair Display", Georgia, serif; }
+.subtitle { font-size: 1.25rem; color: var(--text-secondary); line-height: 1.5; font-weight: 400; }
+
+/* 
+  ========================================
+  WEEK 4: ASYMMETRIC CARD GRID
+  ========================================
+*/
+
+.asymmetric-card-grid {
+    display: grid;
+    /* Desktop: 3 fluid columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* Use established space variables for the gap */
+    gap: var(--space-md);
+    
+    /* THE FIX FOR EMPTY HOLES: */
+    grid-auto-flow: dense;
+}
+
+.card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden; /* Keeps images inside borders */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.card-img-wrapper {
+    width: 100%;
+    height: 200px; /* Base height for standard cards */
+    overflow: hidden;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    /* Use established space variables for padding */
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: var(--size-heading-md);
+    margin-bottom: var(--space-sm);
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+.card-excerpt {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-top: auto; /* Pushes text up if cards stretch vertically */
+}
+
+/* HERO CARD MODIFIERS */
+.card-hero {
+    /* Spans 2 columns and 2 rows on desktop */
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.card-hero .card-img-wrapper {
+    height: 60%;
+    min-height: 300px;
+}
+
+.card-hero .card-title {
+    font-size: clamp(1.75rem, 1.5rem + 2vw, 2.5rem);
+}
+
+.card-hero .card-excerpt {
+    font-size: 1.1rem;
+}
+
+
+/* RESPONSIVE BREAKPOINTS */
+
+@media (max-width: 1100px) {
+    /* Tablet: Drop to 2 columns */
+    .asymmetric-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 
+       On a 2-column grid, spanning 2 columns takes the full width. 
+       grid-auto-flow: dense handles the rest perfectly!
+    */
+    .card-hero {
+        grid-column: span 2;
+        grid-row: span 1; /* Drop to 1 row on tablet to prevent weird stretching */
+    }
+}
+
+@media (max-width: 1000px) {
+    .app-layout {
+        height: auto;
+        overflow: auto;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "main"
+            "aside"
+            "footer";
+    }
+    
+    .story-container { overflow-y: visible; padding: var(--space-md); }
+    .related-sidebar { overflow-y: visible; border-left: none; border-top: 1px solid var(--border); }
+    .primary-nav a:not(:last-child) { display: none; }
+}
+
+@media (max-width: 650px) {
+    /* Mobile: Drop to 1 column */
+    .asymmetric-card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Remove all spanning constraints on mobile */
+    .card-hero {
+        grid-column: auto;
+        grid-row: auto;
+    }
+    
+    .card-hero .card-img-wrapper {
+        min-height: 200px;
+    }
+}

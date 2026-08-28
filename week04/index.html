@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Journal | Week 4: Asymmetric Grid</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-layout">
+    <div class="reading-progress"></div>
+    
+    <header id="main-header" class="site-header">
+        <div class="header-content">
+            <div class="logo">TRAVEL<span>/JOURNAL</span></div>
+            <nav class="primary-nav">
+                <a href="#">About</a>
+                <a href="#">Directory</a>
+                <a href="https://github.com/noodles1102/my-capstone-project" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <button id="theme-toggle">Toggle Theme</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="story-container">
+        <header class="article-header">
+            <span class="category">Latest Dispatches</span>
+            <h1 class="main-title">The Explorer's Feed</h1>
+            <p class="subtitle">Navigating the intersection of modern technology and the world's most remote landscapes.</p>
+        </header>
+
+        <section class="asymmetric-card-grid">
+            <!-- 1. HERO CARD -->
+            <article class="card card-hero">
+                <div class="card-img-wrapper">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Panorama_of_Lysefjord.jpg?width=1200" alt="Panorama of Lysefjord with Preikestolen">
+                </div>
+                <div class="card-content">
+                    <span class="category">Featured &bull; Norway</span>
+                    <h2 class="card-title">Ascending Preikestolen: The Digital Edge</h2>
+                    <p class="card-excerpt">Standing 604 meters above the Lysefjord, the scale of the earth suddenly makes our digital anxieties feel entirely insignificant. Discover how the modern nomad navigates this ancient granite.</p>
+                </div>
+            </article>
+
+            <!-- 2. STANDARD CARD -->
+            <article class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Preikestolen_Lysefjord.jpg?width=800" alt="Preikestolen overlooking Lysefjord">
+                </div>
+                <div class="card-content">
+                    <span class="category">Gear</span>
+                    <h3 class="card-title">Cold Weather Tech</h3>
+                    <p class="card-excerpt">Keeping your batteries alive when the temperature drops below freezing.</p>
+                </div>
+            </article>
+
+            <!-- 3. STANDARD CARD -->
+            <article class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lysefjorden_fjord.jpg?width=800" alt="Steep cliffs of Lysefjord">
+                </div>
+                <div class="card-content">
+                    <span class="category">Culture</span>
+                    <h3 class="card-title">The Friluftsliv Mindset</h3>
+                    <p class="card-excerpt">Why the Norwegian concept of open-air living is the ultimate antidote to burnout.</p>
+                </div>
+            </article>
+
+            <!-- 4. STANDARD CARD -->
+            <article class="card">
+                <div class="card-content">
+                    <span class="category">Connectivity</span>
+                    <h3 class="card-title">5G in the Fjords</h3>
+                    <p class="card-excerpt">It is a strange dichotomy to have gigabit speeds while standing on a glacier.</p>
+                </div>
+            </article>
+
+            <!-- 5. STANDARD CARD -->
+            <article class="card">
+                <div class="card-content">
+                    <span class="category">Photography</span>
+                    <h3 class="card-title">Packing Light</h3>
+                    <p class="card-excerpt">Ditching the heavy DSLR for a mirrorless setup on multi-day treks.</p>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <aside class="related-sidebar">
+        <h3 class="sidebar-title">Explore More</h3>
+        <ul class="sidebar-list">
+            <li><a href="#">The Lofoten Islands: A Digital Nomad's Guide</a></li>
+            <li><a href="#">Tech Gear for Extreme Cold Weather</a></li>
+            <li><a href="#">Sustainable Travel in the Nordics</a></li>
+        </ul>
+        
+        <div class="newsletter-card">
+            <h4>Join the Journey</h4>
+            <p>Get weekly updates on our tech and travel dispatches.</p>
+            <input type="email" placeholder="Email address" class="newsletter-input">
+            <button class="newsletter-btn">Subscribe</button>
+        </div>
+    </aside>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Travel Journal Capstone. All rights reserved.</p>
+            <nav class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        const mainElement = document.querySelector('main');
+        mainElement.addEventListener('scroll', () => {
+            const scrollTop = mainElement.scrollTop;
+            const height = mainElement.scrollHeight - mainElement.clientHeight;
+            const scrolled = (scrollTop / height) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
+        });
+
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

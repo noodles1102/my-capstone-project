@@ -1,0 +1,497 @@
+@layer reset, base, layout, components;
+
+/* 
+  ----------------------------------------
+  1. RESET LAYER
+  Contains structural and font-trim resets.
+  ----------------------------------------
+*/
+@layer reset {
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Optical text trimming to remove space above/below text nodes */
+    h1, h2, h3, h4, h5, h6, p, span, a, li {
+        text-box-trim: both;
+        text-box-edge: cap alphabetic;
+    }
+}
+
+/* 
+  ----------------------------------------
+  2. BASE LAYER
+  Controls default HTML styles and tokens.
+  ----------------------------------------
+*/
+@layer base {
+    :root {
+        --bg-primary: oklch(0.98 0.01 75);      
+        --bg-secondary: oklch(0.95 0.015 75);   
+        --text-primary: oklch(0.25 0.02 250);   
+        
+        /* Adjusted for WCAG AA compliance (4.5:1 ratio against bg-primary) */
+        --text-secondary: oklch(0.40 0.02 250); 
+        --accent: oklch(0.50 0.18 20);          
+        
+        --border: oklch(0.85 0.01 250);
+
+        --size-base: 1rem;
+        --size-heading-md: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+        --size-heading-lg: clamp(2rem, 1.3rem + 3.5vw, 4rem);
+
+        --space-xs: 0.5rem;
+        --space-sm: 1rem;
+        --space-md: 2rem;
+        --space-lg: 4rem;
+        
+        --scroll-progress: 0%;
+    }
+
+    [data-theme="dark"] {
+        --bg-primary: oklch(0.18 0.01 250);     
+        --bg-secondary: oklch(0.22 0.015 250);  
+        --text-primary: oklch(0.92 0.01 75);    
+        
+        /* Adjusted for WCAG AA compliance (4.5:1 ratio against dark bg-primary) */
+        --text-secondary: oklch(0.75 0.01 75);  
+        --accent: oklch(0.70 0.16 25);          
+        
+        --border: oklch(0.30 0.01 250);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+            --bg-primary: oklch(0.18 0.01 250);
+            --bg-secondary: oklch(0.22 0.015 250);
+            --text-primary: oklch(0.92 0.01 75);
+            --text-secondary: oklch(0.75 0.01 75);
+            --accent: oklch(0.70 0.16 25);
+            --border: oklch(0.30 0.01 250);
+        }
+    }
+
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: var(--size-base);
+        line-height: 1.6;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary);
+        line-height: 1.2;
+    }
+}
+
+/* 
+  ----------------------------------------
+  3. LAYOUT LAYER
+  Houses high-level frame setups and shells.
+  ----------------------------------------
+*/
+@layer layout {
+    .app-layout {
+        display: grid;
+        grid-template-columns: 
+            minmax(var(--space-md), 1fr) 
+            minmax(auto, 1000px) 
+            minmax(250px, 300px) 
+            minmax(var(--space-md), 1fr);
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "header header header header"
+            ". main aside ."
+            "footer footer footer footer";
+        height: 100dvh;
+        overflow: hidden;
+        gap: 0 var(--space-md);
+        
+        @media (max-width: 1000px) {
+            height: auto;
+            overflow: auto;
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "header"
+                "main"
+                "aside"
+                "footer";
+        }
+    }
+
+    .site-header { 
+        grid-area: header; 
+        background-color: var(--bg-primary); 
+        border-bottom: 1px solid var(--border); 
+        padding: var(--space-sm) var(--space-md); 
+        z-index: 999; 
+    }
+    
+    .header-content { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        max-width: 1400px; 
+        margin: 0 auto; 
+    }
+
+    .story-container { 
+        grid-area: main; 
+        overflow-y: auto; 
+        padding: var(--space-lg) var(--space-md); 
+        scrollbar-width: thin; 
+
+        @media (max-width: 1000px) {
+            overflow-y: visible; 
+            padding: var(--space-md);
+        }
+    }
+
+    .related-sidebar { 
+        grid-area: aside; 
+        overflow-y: auto; 
+        padding: var(--space-lg) var(--space-md); 
+        border-left: 1px solid var(--border); 
+        background-color: var(--bg-secondary); 
+
+        @media (max-width: 1000px) {
+            overflow-y: visible; 
+            border-left: none; 
+            border-top: 1px solid var(--border);
+        }
+    }
+
+    .site-footer { 
+        grid-area: footer; 
+        background-color: var(--bg-secondary); 
+        border-top: 1px solid var(--border); 
+        padding: var(--space-sm) var(--space-md); 
+    }
+    
+    .footer-content { 
+        display: flex; 
+        justify-content: space-between; 
+        max-width: 1400px; 
+        margin: 0 auto; 
+    }
+}
+
+/* 
+  ----------------------------------------
+  4. COMPONENTS LAYER
+  Strict nesting: 0 flat, repeating descendant selectors.
+  ----------------------------------------
+*/
+@layer components {
+    
+    .reading-progress { 
+        grid-column: 1 / -1; 
+        grid-row: 1; 
+        position: relative; 
+        z-index: 1001; 
+        width: var(--scroll-progress); 
+        height: 4px; 
+        background-color: var(--accent); 
+        transition: width 0.1s ease-out; 
+    }
+
+    /* LOGO COMPONENT */
+    .logo { 
+        font-weight: 800; 
+        font-size: 1.2rem; 
+        letter-spacing: -0.05em; 
+        
+        span { 
+            color: var(--accent); 
+        }
+    }
+
+    /* NAVIGATION COMPONENT */
+    .primary-nav {
+        a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            margin-left: var(--space-md); 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            transition: color 0.2s; 
+            
+            &:hover { 
+                color: var(--text-primary); 
+            }
+
+            @media (max-width: 1000px) {
+                &:not(:last-child) { 
+                    display: none; 
+                }
+            }
+        }
+    }
+
+    /* THEME TOGGLE COMPONENT */
+    #theme-toggle { 
+        margin-left: var(--space-md); 
+        background: var(--bg-secondary); 
+        color: var(--text-primary); 
+        border: 1px solid var(--border); 
+        padding: var(--space-xs) var(--space-sm); 
+        border-radius: 4px; 
+        cursor: pointer; 
+        font-size: 0.8rem; 
+        transition: all 0.2s;
+        
+        &:hover, &:focus { 
+            border-color: var(--accent); 
+        }
+    }
+
+    /* ARTICLE HEADER COMPONENT */
+    .article-header { 
+        text-align: center; 
+        margin-bottom: var(--space-lg); 
+        max-width: 800px; 
+        margin-inline: auto; 
+        
+        .category { 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            letter-spacing: 0.1em; 
+            color: var(--accent); 
+            font-weight: 600; 
+            display: block; 
+            margin-bottom: var(--space-sm); 
+        }
+        
+        .main-title { 
+            font-size: var(--size-heading-lg); 
+            line-height: 1.1; 
+            font-weight: 800; 
+            letter-spacing: -0.02em; 
+            margin-bottom: var(--space-md); 
+            font-family: "Playfair Display", Georgia, serif; 
+        }
+        
+        .subtitle { 
+            font-size: 1.25rem; 
+            color: var(--text-secondary); 
+            line-height: 1.5; 
+            font-weight: 400; 
+        }
+    }
+
+    /* ASYMMETRIC GRID & FULLY NESTED CARD COMPONENT */
+    .asymmetric-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-md);
+        grid-auto-flow: dense;
+
+        @media (max-width: 1100px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        @media (max-width: 650px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* CARD BASE (Strict Nesting Implementation) */
+    .card {
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+        /* Nested interaction states */
+        &:hover, &:focus-within {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            
+            /* Nested deep targeting (Zero flat selectors) */
+            .card-img-wrapper {
+                img {
+                    transform: scale(1.05);
+                }
+            }
+        }
+
+        [data-theme="dark"] &:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Nested Image Wrapper */
+        .card-img-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+        }
+
+        /* Nested Content Block */
+        .card-content {
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+
+            .category {
+                text-transform: uppercase; 
+                font-size: 0.75rem; 
+                letter-spacing: 0.1em; 
+                color: var(--accent); 
+                font-weight: 600; 
+                margin-bottom: var(--space-xs);
+            }
+
+            .card-title {
+                font-family: "Playfair Display", Georgia, serif;
+                font-size: var(--size-heading-md);
+                margin-bottom: var(--space-sm);
+                line-height: 1.2;
+                color: var(--text-primary);
+            }
+
+            .card-excerpt {
+                font-size: 0.95rem;
+                color: var(--text-secondary);
+                line-height: 1.5;
+                margin-top: auto;
+            }
+        }
+
+        /* Hero Card Modifier */
+        &.card-hero {
+            grid-column: span 2;
+            grid-row: span 2;
+            
+            .card-img-wrapper {
+                height: 60%;
+                min-height: 300px;
+            }
+            
+            .card-title {
+                font-size: clamp(1.75rem, 1.5rem + 2vw, 2.5rem);
+            }
+            
+            .card-excerpt {
+                font-size: 1.1rem;
+            }
+
+            @media (max-width: 1100px) {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            @media (max-width: 650px) {
+                grid-column: auto;
+                grid-row: auto;
+                
+                .card-img-wrapper {
+                    min-height: 200px;
+                }
+            }
+        }
+    }
+
+    /* SIDEBAR WIDGET COMPONENT */
+    .related-sidebar {
+        .sidebar-title { 
+            font-size: 1.2rem; 
+            margin-bottom: var(--space-sm); 
+            font-family: "Playfair Display", Georgia, serif; 
+        }
+        
+        .sidebar-list { 
+            list-style: none; 
+            margin-bottom: var(--space-lg); 
+            
+            li { margin-bottom: var(--space-xs); }
+            
+            a { 
+                color: var(--text-secondary); 
+                text-decoration: none; 
+                font-size: 0.95rem; 
+                transition: color 0.2s;
+                
+                &:hover { color: var(--accent); }
+            }
+        }
+
+        /* NESTED NEWSLETTER COMPONENT */
+        .newsletter-card { 
+            background-color: var(--bg-primary); 
+            padding: var(--space-sm); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            
+            h4 { 
+                margin-bottom: var(--space-xs); 
+                font-size: 1.05rem; 
+            }
+            
+            p { 
+                font-size: 0.85rem; 
+                color: var(--text-secondary); 
+                margin-bottom: var(--space-sm); 
+            }
+            
+            .newsletter-input { 
+                width: 100%; 
+                padding: var(--space-xs); 
+                border: 1px solid var(--border); 
+                background: var(--bg-secondary); 
+                color: var(--text-primary); 
+                border-radius: 4px; 
+                margin-bottom: var(--space-xs); 
+            }
+            
+            .newsletter-btn { 
+                width: 100%; 
+                padding: var(--space-xs); 
+                background: var(--text-primary); 
+                color: var(--bg-primary); 
+                border: none; 
+                border-radius: 4px; 
+                cursor: pointer; 
+                font-weight: bold; 
+                transition: background-color 0.2s;
+                
+                &:hover {
+                    background-color: var(--accent);
+                }
+            }
+        }
+    }
+
+    /* FOOTER COMPONENTS */
+    .site-footer { 
+        font-size: 0.85rem; 
+        color: var(--text-secondary); 
+        
+        /* Strict Nesting fixed */
+        .footer-links {
+            a { 
+                color: inherit; 
+                text-decoration: none; 
+                margin-left: var(--space-sm); 
+                transition: color 0.2s;
+                
+                &:hover { color: var(--accent); }
+            }
+        }
+    }
+}
